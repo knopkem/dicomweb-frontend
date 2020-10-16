@@ -1,13 +1,21 @@
-import React, { Component } from 'react'
-import NavBar from './components/Navbar'
-import DataTable from "./components/DataTable"
+import React, { Component } from 'react';
+import StudyBrowser from './StudyBrowser';
+import VTKLoadImageDataExample from './VTKLoadImageDataExample';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import NavBar from './components/Navbar';
+
 class App extends Component {
   render() {
     return (
-      <div>
-        <NavBar />
-        <DataTable />
-      </div>
+        <Router>
+            <div>
+            <Switch>
+                <Route exact path="/" component={StudyBrowser} />
+
+                <Route path="/viewer/:uid" component={VTKLoadImageDataExample} />} />
+            </Switch>
+            </div>
+        </Router>
     )
   }
 }
