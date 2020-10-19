@@ -5,15 +5,14 @@ import Grid from '@material-ui/core/Grid';
 import { View2D, getImageData, loadImageData } from 'react-vtkjs-viewport';
 import cornerstone from 'cornerstone-core';
 import cornerstoneTools from 'cornerstone-tools';
-import './initCornerstone.js';
+import '../initCornerstone.js';
 import vtkVolumeMapper from 'vtk.js/Sources/Rendering/Core/VolumeMapper';
 import vtkVolume from 'vtk.js/Sources/Rendering/Core/Volume';
-import { withRouter } from 'react-router-dom'
 window.cornerstoneTools = cornerstoneTools;
 
 
 
-class VTKLoadImageDataExample extends Component {
+class MPR extends Component {
   state = {
     volumes: null,
     vtkImageData: null,
@@ -67,18 +66,11 @@ class VTKLoadImageDataExample extends Component {
     const qidoRoute = 'viewer/rs/studies';
     const wadoRoute = 'viewer/wadouri';
   
-    // using global object or default study (oblix)
-    const studyUid = this.props.match.params.uid; //||'2.16.840.1.113669.632.20.1211.10000098591';
-    let response = await fetch(`${host}:${port}/${qidoRoute}/${studyUid}/series`);
-    let json = await response.json();
-    // loading first series in study
-    // const seriesUid = json[0]['0020000E'].Value[0];
-    const seriesUid = '1.2.840.113704.1.111.5692.1127829280.6';
-    response = await fetch(`${host}:${port}/${qidoRoute}/${studyUid}/series/${seriesUid}/instances`);
-    json = await response.json();
+    const response = await fetch(`${host}:${port}/${qidoRoute}/${this.props.studyUid}/series/${this.props.seriesUid}/instances`);
+    const json = await response.json();
     json.forEach(item => {
       const objectUid = item['00080018'].Value[0];
-      const imageId = `wadouri:${host}:${port}/${wadoRoute}/?requestType=WADO&studyUID=${studyUid}&seriesUID=${seriesUid}&objectUID=${objectUid}&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1`;
+      const imageId = `wadouri:${host}:${port}/${wadoRoute}/?requestType=WADO&studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=${objectUid}&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1`;
       imageIds.push(imageId);
     });
   
@@ -105,7 +97,7 @@ class VTKLoadImageDataExample extends Component {
 
     Promise.all(promises).then(
       () => {
-        const displaySetInstanceUid = '12345';
+        const displaySetInstanceUid = this.props.seriesUid;
         const cornerstoneViewportData = {
           stack: {
             imageIds,
@@ -177,52 +169,24 @@ class VTKLoadImageDataExample extends Component {
       return <h4>Loading dataset...</h4>;
     }
     return (
-        /*
-        <Grid container>
-          <Grid container item>
-              <Grid item >
-                <View2D
-                        volumes={this.state.volumes}
-                        onCreated={this.storeApi('AXIAL')}
-                    />
-               </Grid>
-               <Grid item>
-                <View2D
-                        volumes={this.state.volumes}
-                        onCreated={this.storeApi('SAGITTAL')}
-                    />
-               </Grid>
-               <Grid item>
-                <View2D
-                        volumes={this.state.volumes}
-                        onCreated={this.storeApi('CORONAL')}
-                    />
-               </Grid>
-         </Grid>
-        </Grid>
-        */
       <div className="row">
         <div className="col-xs-12">
-          <h1>MPR viewer using vtkjs and dicomweb</h1>
-          <hr />
-        </div>
-        <div className="col-xs-12">
-          <div className="col-xs-12 col-sm-6">
+          <div className="col-xs-12">
             {this.state.volumes && (
               <>
-                <div className="col-xs-12 col-sm-6">
+                <div className="col-xs-12 col-sm-3">
                   <View2D
                     volumes={this.state.volumes}
                     onCreated={this.storeApi('AXIAL')}
                   />
                 </div>
-                <div className="col-xs-12 col-sm-6">
+                <div className="col-xs-12 col-sm-3">
                   <View2D
                     volumes={this.state.volumes}
                     onCreated={this.storeApi('SAGITTAL')}
                   />
                 </div>
-                <div className="col-xs-12 col-sm-6">
+                <div className="col-xs-12 col-sm-3">
                   <View2D
                     volumes={this.state.volumes}
                     onCreated={this.storeApi('CORONAL')}
@@ -237,4 +201,4 @@ class VTKLoadImageDataExample extends Component {
   }
 }
 
-export default VTKLoadImageDataExample;
+export default MPR;

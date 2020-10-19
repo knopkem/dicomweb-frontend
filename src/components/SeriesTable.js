@@ -1,6 +1,7 @@
 import * as React from 'react';
 import SeriesItem from './SeriesItem'
 import DicomViewer from './DicomViewer'
+import MPR from './MPR'
 import { Grid } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from 'lodash'
@@ -20,6 +21,7 @@ export default function SeriesTable(props) {
     const [series, setSeries] = React.useState('');
     const [study, setStudy] = React.useState('');
     const [ready, setReady] = React.useState(false);
+    const [mpr, setMpr] = React.useState(false);
     
     React.useEffect(() => {
         if (!init) {
@@ -49,8 +51,9 @@ export default function SeriesTable(props) {
         );
     } 
     const onSelectionChange = (e) => {
-        setSeries(e);
-        setReady(true);
+        setSeries(e.uid);
+        setMpr(e.mpr);
+        setReady(!e.mpr);
     } 
 
   return (
@@ -72,6 +75,7 @@ export default function SeriesTable(props) {
           </div>
         <div style={{ flex: 1}}>
         {ready ? <DicomViewer seriesUid={series} studyUid={study}/> : <div></div> }
+        {mpr ? <MPR seriesUid={series} studyUid={study}/> : <div></div> }
         </div>
     </div>
   );

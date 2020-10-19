@@ -37,7 +37,6 @@ class DicomViewer extends Component {
   }
 
   find() {
-    console.log('fetching');
     const query = `http://localhost:5000/viewer/rs/studies/${this.props.studyUid}/series/${this.props.seriesUid}/instances`;
     const imageQuery = `dicomweb://localhost:5000/viewer/wadouri/?studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=`;
     fetch(query)
@@ -47,9 +46,7 @@ class DicomViewer extends Component {
                     const res = data.map( (row, index) =>
                             imageQuery + _.get(row, "['00080018'].Value[0]", '')
                     );
-                    console.log(res);
                     this.setState({ 'imageIds' : res, 'ready': true });
-
                 }
             }
         );

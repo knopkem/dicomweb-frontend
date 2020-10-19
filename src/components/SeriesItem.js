@@ -27,9 +27,11 @@ export default function SeriesItem(props) {
   const classes = useStyles();
 
   const handleClick = () => {
-    props.onClick(props.uid);
+    props.onClick({uid: props.uid, mpr: false});
   }
-
+  const handleClick2 = () => {
+    props.onClick({uid: props.uid, mpr: true});
+  }
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -42,6 +44,7 @@ export default function SeriesItem(props) {
       </CardContent>
       <CardActions>
         <Button size="small" onClick={handleClick}>Open Viewer</Button>
+        <Button size="small" onClick={handleClick2}>Open MPR</Button>
       </CardActions>
     </Card>
   );
