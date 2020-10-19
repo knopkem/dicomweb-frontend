@@ -1,11 +1,13 @@
 import React from 'react';
-import DataTable from './components/DataTable';
+import StudyTable from './components/StudyTable';
+import NavBar from './components/Navbar';
 
 export default function StudyBrowser() {
 
     return (
         <div>
-            <DataTable />
+            <NavBar/>
+            <StudyTable />
         </div>
     )
 }

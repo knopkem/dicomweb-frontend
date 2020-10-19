@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactApp from './App';
+import './initCornerstone';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
     <ReactApp />
-  </React.StrictMode>,
+  </React.Fragment>,
   document.getElementById('root')
 );
 

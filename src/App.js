@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import StudyBrowser from './StudyBrowser';
-import VTKLoadImageDataExample from './VTKLoadImageDataExample';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import NavBar from './components/Navbar';
+import SeriesTable from './components/SeriesTable';
 
 class App extends Component {
   render() {
@@ -11,8 +10,7 @@ class App extends Component {
             <div>
             <Switch>
                 <Route exact path="/" component={StudyBrowser} />
-
-                <Route path="/viewer/:uid" component={VTKLoadImageDataExample} />} />
+                <Route path="/viewer/:uid" component={SeriesTable} />
             </Switch>
             </div>
         </Router>

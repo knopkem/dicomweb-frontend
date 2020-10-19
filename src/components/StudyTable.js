@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import _ from 'lodash'
 
 
-export default function DataTable() {
+export default function StudyTable() {
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
@@ -30,7 +30,7 @@ export default function DataTable() {
             setInit(true);
         }
     },[init]);
-    
+
     const find = (value) => {
         const query = `http://localhost:5000/rs/studies?includefield=00081030%2C00080060%2C00080020&StudyDate=19520428-20201008&PatientName=${value}`;
         fetch(query)
@@ -51,7 +51,8 @@ export default function DataTable() {
             setData(res);
             }
         );
-    } 
+    }
+
     const onSelectionChange = (e) => {
         if (e.rows.length === 0) return;
         const uid = e.rows[0].uid;
