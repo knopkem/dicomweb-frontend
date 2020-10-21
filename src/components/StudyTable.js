@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import SearchBar from 'material-ui-search-bar';
 import { useHistory } from "react-router-dom";
@@ -21,19 +21,29 @@ export default function StudyTable() {
     const history = useHistory();
 
     const [data, setData] = React.useState([]);
-    const [init, setInit] = React.useState(false);
     const [searchValue, setSearchValue] = React.useState('');
-    
-    React.useEffect(() => {
-        if (!init) {
-            find('');
-            setInit(true);
-        }
-    },[init]);
 
-    const find = (value) => {
+    React.useEffect(() => {
+
+        const abortController = new AbortController();
+
+        try {
+            find('', abortController);
+        } catch (e) {
+            // only call dispatch when we know the fetch was not aborted
+            if (!abortController.signal.aborted) {
+                console.log(e.message);
+            }
+        }
+        return () => {
+            abortController.abort();
+          };
+    }, []);
+
+    const find = (value, abortController) => {
         const query = `http://localhost:5000/rs/studies?includefield=00081030%2C00080060%2C00080020&StudyDate=19520428-20201008&PatientName=${value}`;
-        fetch(query)
+        const options = abortController ? { signal: abortController.signal } : {};
+        fetch(query, options)
         .then(response => response.json())
         .then(data => {
             const res = data.map( (row, index) => {
@@ -55,10 +65,12 @@ export default function StudyTable() {
 
     const onSelectionChange = (e) => {
         if (e.rows.length === 0) return;
-        const uid = e.rows[0].uid;
-        let path = `/viewer/${uid}`; 
-        history.push(path);
-    } 
+        setTimeout(() => {
+            const uid = e.rows[0].uid;
+            const path = `/viewer/${uid}`;
+            history.push(path);
+        }, 0);
+    }
 
   return (
     <div style={{ height: 400, width: '100%' }}>

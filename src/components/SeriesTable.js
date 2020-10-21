@@ -5,6 +5,7 @@ import MPR from './MPR'
 import { Grid } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from 'lodash'
+import '../initCornerstone';
 
 const useStyles = makeStyles((theme) => ({
     root: {

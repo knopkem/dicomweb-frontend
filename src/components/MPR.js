@@ -2,25 +2,208 @@ import React from 'react';
 import { Component } from 'react';
 
 import Grid from '@material-ui/core/Grid';
-import { View2D, getImageData, loadImageData } from 'react-vtkjs-viewport';
+import { View2D, getImageData, loadImageData, View3D } from 'react-vtkjs-viewport';
 import cornerstone from 'cornerstone-core';
 import cornerstoneTools from 'cornerstone-tools';
-import '../initCornerstone.js';
 import vtkVolumeMapper from 'vtk.js/Sources/Rendering/Core/VolumeMapper';
 import vtkVolume from 'vtk.js/Sources/Rendering/Core/Volume';
+import vtkColorTransferFunction from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction';
+import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import presets from '../presets.js';
+import { api } from 'dicomweb-client';
+
 window.cornerstoneTools = cornerstoneTools;
 
+function createActorMapper(imageData) {
+    const mapper = vtkVolumeMapper.newInstance();
+    mapper.setInputData(imageData);
+  
+    const actor = vtkVolume.newInstance();
+    actor.setMapper(mapper);
+  
+    return {
+      actor,
+      mapper,
+    };
+  }
+  
+  function getShiftRange(colorTransferArray) {
+    // Credit to paraview-glance
+    // https://github.com/Kitware/paraview-glance/blob/3fec8eeff31e9c19ad5b6bff8e7159bd745e2ba9/src/components/controls/ColorBy/script.js#L133
+  
+    // shift range is original rgb/opacity range centered around 0
+    let min = Infinity;
+    let max = -Infinity;
+    for (let i = 0; i < colorTransferArray.length; i += 4) {
+      min = Math.min(min, colorTransferArray[i]);
+      max = Math.max(max, colorTransferArray[i]);
+    }
+  
+    const center = (max - min) / 2;
+  
+    return {
+      shiftRange: [-center, center],
+      min,
+      max,
+    };
+  }
+  
+  function applyPointsToPiecewiseFunction(points, range, pwf) {
+    const width = range[1] - range[0];
+    const rescaled = points.map(([x, y]) => [x * width + range[0], y]);
+  
+    pwf.removeAllPoints();
+    rescaled.forEach(([x, y]) => pwf.addPoint(x, y));
+  
+    return rescaled;
+  }
+  
+  function applyPointsToRGBFunction(points, range, cfun) {
+    const width = range[1] - range[0];
+    const rescaled = points.map(([x, r, g, b]) => [
+      x * width + range[0],
+      r,
+      g,
+      b,
+    ]);
+  
+    cfun.removeAllPoints();
+    rescaled.forEach(([x, r, g, b]) => cfun.addRGBPoint(x, r, g, b));
+  
+    return rescaled;
+  }
 
+function applyPreset(actor, preset) {
+    // Create color transfer function
+    const colorTransferArray = preset.colorTransfer
+      .split(' ')
+      .splice(1)
+      .map(parseFloat);
+  
+    const { shiftRange } = getShiftRange(colorTransferArray);
+    let min = shiftRange[0];
+    const width = shiftRange[1] - shiftRange[0];
+    const cfun = vtkColorTransferFunction.newInstance();
+    const normColorTransferValuePoints = [];
+    for (let i = 0; i < colorTransferArray.length; i += 4) {
+      let value = colorTransferArray[i];
+      const r = colorTransferArray[i + 1];
+      const g = colorTransferArray[i + 2];
+      const b = colorTransferArray[i + 3];
+  
+      value = (value - min) / width;
+      normColorTransferValuePoints.push([value, r, g, b]);
+    }
+  
+    applyPointsToRGBFunction(normColorTransferValuePoints, shiftRange, cfun);
+  
+    actor.getProperty().setRGBTransferFunction(0, cfun);
+  
+    // Create scalar opacity function
+    const scalarOpacityArray = preset.scalarOpacity
+      .split(' ')
+      .splice(1)
+      .map(parseFloat);
+  
+    const ofun = vtkPiecewiseFunction.newInstance();
+    const normPoints = [];
+    for (let i = 0; i < scalarOpacityArray.length; i += 2) {
+      let value = scalarOpacityArray[i];
+      const opacity = scalarOpacityArray[i + 1];
+  
+      value = (value - min) / width;
+  
+      normPoints.push([value, opacity]);
+    }
+  
+    applyPointsToPiecewiseFunction(normPoints, shiftRange, ofun);
+  
+    actor.getProperty().setScalarOpacity(0, ofun);
+  
+    const [
+      gradientMinValue,
+      gradientMinOpacity,
+      gradientMaxValue,
+      gradientMaxOpacity,
+    ] = preset.gradientOpacity
+      .split(' ')
+      .splice(1)
+      .map(parseFloat);
+  
+    actor.getProperty().setUseGradientOpacity(0, true);
+    actor.getProperty().setGradientOpacityMinimumValue(0, gradientMinValue);
+    actor.getProperty().setGradientOpacityMinimumOpacity(0, gradientMinOpacity);
+    actor.getProperty().setGradientOpacityMaximumValue(0, gradientMaxValue);
+    actor.getProperty().setGradientOpacityMaximumOpacity(0, gradientMaxOpacity);
+  
+    if (preset.interpolation === '1') {
+      actor.getProperty().setInterpolationTypeToFastLinear();
+      //actor.getProperty().setInterpolationTypeToLinear()
+    }
+  
+    const ambient = parseFloat(preset.ambient);
+    //const shade = preset.shade === '1'
+    const diffuse = parseFloat(preset.diffuse);
+    const specular = parseFloat(preset.specular);
+    const specularPower = parseFloat(preset.specularPower);
+  
+    //actor.getProperty().setShade(shade)
+    actor.getProperty().setAmbient(ambient);
+    actor.getProperty().setDiffuse(diffuse);
+    actor.getProperty().setSpecular(specular);
+    actor.getProperty().setSpecularPower(specularPower);
+  }
+
+function createCT3dPipeline(imageData, ctTransferFunctionPresetId) {
+    const { actor, mapper } = createActorMapper(imageData);
+  
+    const sampleDistance =
+      1.2 *
+      Math.sqrt(
+        imageData
+          .getSpacing()
+          .map(v => v * v)
+          .reduce((a, b) => a + b, 0)
+      );
+  
+    const range = imageData
+      .getPointData()
+      .getScalars()
+      .getRange();
+    actor
+      .getProperty()
+      .getRGBTransferFunction(0)
+      .setRange(range[0], range[1]);
+  
+    mapper.setSampleDistance(sampleDistance);
+  
+    const preset = presets.find(
+      preset => preset.id === ctTransferFunctionPresetId
+    );
+  
+    applyPreset(actor, preset);
+  
+    actor.getProperty().setScalarOpacityUnitDistance(0, 2.5);
+  
+    return actor;
+  }
 
 class MPR extends Component {
-  state = {
-    volumes: null,
-    vtkImageData: null,
-    cornerstoneViewportData: null,
-    focusedWidgetId: null,
-    isSetup: false,
-  };
-
+    constructor(props) {
+        super(props);
+    this.state = {
+        volumes: null,
+        vtkImageData: null,
+        cornerstoneViewportData: null,
+        focusedWidgetId: null,
+        isSetup: false,
+        volumeRenderingVolumes: null,
+        ctTransferFunctionPresetId: 'vtkMRMLVolumePropertyNode18',
+        petColorMapId: 'hsv',
+        percentComplete: 0,
+        }
+    }
   
   ORIENTATION = {
     AXIAL: {
@@ -77,11 +260,24 @@ class MPR extends Component {
     return imageIds;
   }
 
+  rerenderAll = () => {
+    // Update all render windows, since the automatic re-render might not
+    // happen if the viewport is not currently using the painting widget
+    Object.keys(this.apis).forEach(viewportIndex => {
+      const renderWindow = this.apis[
+        viewportIndex
+      ].genericRenderWindow.getRenderWindow();
+
+      renderWindow.render();
+    });
+  };
+
 
   async componentDidMount() {
     this.components = {};
     this.cornerstoneElements = {};
 
+    this.apis = [];
 
     const imageIds = await this.getImageIds();
 
@@ -97,6 +293,7 @@ class MPR extends Component {
 
     Promise.all(promises).then(
       () => {
+
         const displaySetInstanceUid = this.props.seriesUid;
         const cornerstoneViewportData = {
           stack: {
@@ -106,19 +303,13 @@ class MPR extends Component {
           displaySetInstanceUid,
         };
 
-        const imageDataObject = getImageData(imageIds, displaySetInstanceUid);
+        const imageDataObject = this.loadDataset(imageIds, displaySetInstanceUid);
 
-        loadImageData(imageDataObject);
-
-        const onPixelDataInsertedCallback = numberProcessed => {
-          const percentComplete = Math.floor(
-            (numberProcessed * 100) / imageIds.length
+        const ctVolVR = createCT3dPipeline(
+            imageDataObject.vtkImageData,
+            this.state.ctTransferFunctionPresetId
           );
 
-          console.log(`Processing: ${percentComplete}%`);
-        };
-
-        imageDataObject.onPixelDataInserted(onPixelDataInsertedCallback);
 
         const { actor } = this.createActorMapper(imageDataObject.vtkImageData);
 
@@ -137,13 +328,36 @@ class MPR extends Component {
           vtkImageData: imageDataObject.vtkImageData,
           volumes: [actor],
           cornerstoneViewportData,
+          volumeRenderingVolumes: [ctVolVR]
         });
+        this.rerenderAll();
       },
       error => {
         throw new Error(error);
       }
     );
   }
+
+  saveApiReference = api => {
+    this.apis = [api];
+  };
+
+  handleChangeCTTransferFunction = event => {
+    const ctTransferFunctionPresetId = event.target.value;
+    const preset = presets.find(
+      preset => preset.id === ctTransferFunctionPresetId
+    );
+
+    const actor = this.state.volumeRenderingVolumes[0];
+
+    applyPreset(actor, preset);
+
+    this.rerenderAll();
+
+    this.setState({
+      ctTransferFunctionPresetId,
+    });
+  };
 
   storeApi = orientation => {
     return api => {
@@ -164,10 +378,53 @@ class MPR extends Component {
     };
   };
 
+  loadDataset(imageIds, displaySetInstanceUid) {
+    const imageDataObject = getImageData(imageIds, displaySetInstanceUid);
+
+    loadImageData(imageDataObject);
+
+    const numberOfFrames = imageIds.length;
+
+    const onPixelDataInsertedCallback = numberProcessed => {
+      const percentComplete = Math.floor(
+        (numberProcessed * 100) / numberOfFrames
+      );
+
+      if (this.state.percentComplete !== percentComplete) {
+        this.setState({ percentComplete });
+        this.forceUpdate();
+      }
+
+      if (percentComplete % 20 === 0) {
+        this.rerenderAll();
+      }
+    };
+
+    const onAllPixelDataInsertedCallback = () => {
+      this.rerenderAll();
+    };
+
+    imageDataObject.onPixelDataInserted(onPixelDataInsertedCallback);
+    imageDataObject.onAllPixelDataInserted(onAllPixelDataInsertedCallback);
+
+    return imageDataObject;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  }
+
   render() {
+
     if (!this.state.volumes || !this.state.volumes.length) {
-      return <h4>Loading dataset...</h4>;
-    }
+      return (
+      <div>
+         <div style={{ width: '100%'}}>
+            <LinearProgress  />
+         </div>
+      </div>
+      )
+    } else {
     return (
       <div className="row">
         <div className="col-xs-12">
@@ -192,12 +449,19 @@ class MPR extends Component {
                     onCreated={this.storeApi('CORONAL')}
                   />
                 </div>
+                <div className="col-xs-12 col-sm-3">
+                  <View3D
+                    volumes={this.state.volumeRenderingVolumes}
+                    onCreated={this.saveApiReference}
+                  />
+                </div>
               </>
             )}
           </div>
         </div>
       </div>
     );
+            }
   }
 }
 
