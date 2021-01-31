@@ -21,6 +21,7 @@ export default function StudyTable() {
     const history = useHistory();
 
     const [data, setData] = React.useState([]);
+    const [, setSelection] = React.useState([]);
     const [searchValue, setSearchValue] = React.useState('');
 
     React.useEffect(() => {
@@ -64,9 +65,11 @@ export default function StudyTable() {
     }
 
     const onSelectionChange = (e) => {
-        if (e.rows.length === 0) return;
+        console.log(data[e.rowIds['0']].uid);
+        setSelection(e.rowIds);
+
         setTimeout(() => {
-            const uid = e.rows[0].uid;
+            const uid = data[e.rowIds['0']].uid;
             const path = `/viewer/${uid}`;
             history.push(path);
         }, 0);
