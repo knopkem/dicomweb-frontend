@@ -6,6 +6,7 @@ import { Grid } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from 'lodash'
 import '../initCornerstone';
+import { Config } from './config';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,7 +35,7 @@ export default function SeriesTable(props) {
     },[init]);
     
     const find = (value) => {
-        const query = `http://localhost:5000/viewer/rs/studies/${value}/series`;
+        const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies/${value}/series`;
         fetch(query)
         .then(response => response.json())
         .then(data => {

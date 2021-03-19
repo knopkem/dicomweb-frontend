@@ -2,6 +2,7 @@ import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import SearchBar from 'material-ui-search-bar';
 import { useHistory } from "react-router-dom";
+import { Config } from './config';
 import _ from 'lodash'
 
 
@@ -42,7 +43,7 @@ export default function StudyTable() {
     }, []);
 
     const find = (value, abortController) => {
-        const query = `http://localhost:5000/rs/studies?includefield=00081030%2C00080060%2C00080020&StudyDate=19520428-20201008&PatientName=${value}`;
+        const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies?includefield=00081030%2C00080060%2C00080020&StudyDate=19520428-20201008&PatientName=${value}`;
         const options = abortController ? { signal: abortController.signal } : {};
         fetch(query, options)
         .then(response => response.json())

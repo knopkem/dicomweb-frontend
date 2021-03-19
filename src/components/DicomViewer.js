@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CornerstoneViewport from 'react-cornerstone-viewport';
+import { Config } from './config';
 import _ from 'lodash'
 
 class DicomViewer extends Component {
@@ -37,8 +38,8 @@ class DicomViewer extends Component {
   }
 
   find() {
-    const query = `http://localhost:5000/viewer/rs/studies/${this.props.studyUid}/series/${this.props.seriesUid}/instances`;
-    const imageQuery = `wadouri:http://localhost:5000/viewer/wadouri/?studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=`;
+    const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies/${this.props.studyUid}/series/${this.props.seriesUid}/instances`;
+    const imageQuery = `wadouri:${Config.hostname}:${Config.port}/${Config.wadouri}/?studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=`;
     fetch(query)
         .then(response => response.json())
         .then(data => {
