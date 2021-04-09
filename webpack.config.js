@@ -13,13 +13,13 @@ const webpack = require('webpack');
 const entry = path.join(__dirname, './src/index.js')
 
 module.exports = (env, argv) => {
-  const mode = argv.mode || 'development';
   
   const config = {
-      
   entry,
-  devtool: mode === 'development' ? 'cheap-module-eval-source-map' : false,
+  devtool: false,
+  mode: 'development',
   module: {
+
     rules: [
       {
         test: /\.(js|jsx)$/,
@@ -48,6 +48,14 @@ module.exports = (env, argv) => {
         ],
       }
     ].concat(vtkRules),
+    
+  },
+  resolve: {
+    fallback: {
+      fs: false,
+      path: false,
+      node: false
+    }
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -57,9 +65,11 @@ module.exports = (env, argv) => {
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/index.html',
-      filename: './index.html'
+      // filename: './src/index.html'
     }),
-    new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
+    new webpack.ProvidePlugin({
+        process: 'process/browser',
+      }),
   ],
   optimization: {
     runtimeChunk: 'single',
@@ -82,11 +92,6 @@ module.exports = (env, argv) => {
         },
       },
   },
-  // Fix: https://github.com/webpack-contrib/css-loader/issues/447#issuecomment-285598881
-  // For issue in cornerstone-wado-image-loader
-  node: {
-    fs: 'empty',
-  },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: false,
@@ -95,7 +100,7 @@ module.exports = (env, argv) => {
     },
     hot: false,
     open: true,
-    port: 8091,
+    port: 8091
     
   }
     }

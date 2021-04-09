@@ -11,7 +11,7 @@ import vtkColorTransferFunction from 'vtk.js/Sources/Rendering/Core/ColorTransfe
 import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import presets from '../presets.js';
-import { api } from 'dicomweb-client';
+import { Config } from '../config';
 
 window.cornerstoneTools = cornerstoneTools;
 
@@ -242,18 +242,12 @@ class MPR extends Component {
   async getImageIds() {
 
     const imageIds = [];
-    const host = 'http://localhost';
   
-    // dicomweb-proxy config
-    const port = '5000';
-    const qidoRoute = 'viewer/rs/studies';
-    const wadoRoute = 'viewer/wadouri';
-  
-    const response = await fetch(`${host}:${port}/${qidoRoute}/${this.props.studyUid}/series/${this.props.seriesUid}/instances`);
+    const response = await fetch(`${Config.hostname}:${Config.port}/${Config.qido}/studies/${this.props.studyUid}/series/${this.props.seriesUid}/instances`);
     const json = await response.json();
     json.forEach(item => {
       const objectUid = item['00080018'].Value[0];
-      const imageId = `wadouri:${host}:${port}/${wadoRoute}/?requestType=WADO&studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=${objectUid}&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1`;
+      const imageId = `wadouri:${Config.hostname}:${Config.port}/${Config.wadouri}/?requestType=WADO&studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=${objectUid}&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1`;
       imageIds.push(imageId);
     });
   

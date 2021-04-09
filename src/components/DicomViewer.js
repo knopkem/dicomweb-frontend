@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CornerstoneViewport from 'react-cornerstone-viewport';
-import _ from 'lodash'
+import { Config } from '../config';
+import { __get } from '../utils';
 
 class DicomViewer extends Component {
   state = {
@@ -37,14 +38,14 @@ class DicomViewer extends Component {
   }
 
   find() {
-    const query = `http://localhost:5000/viewer/rs/studies/${this.props.studyUid}/series/${this.props.seriesUid}/instances`;
-    const imageQuery = `wadouri:http://localhost:5000/viewer/wadouri/?studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=`;
+    const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies/${this.props.studyUid}/series/${this.props.seriesUid}/instances`;
+    const imageQuery = `wadouri:${Config.hostname}:${Config.port}/${Config.wadouri}/?studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=`;
     fetch(query)
         .then(response => response.json())
         .then(data => {
                 if(data) {
                     const res = data.map( (row, index) =>
-                            imageQuery + _.get(row, "['00080018'].Value[0]", '')
+                            imageQuery + __get(row, "00080018.Value[0]", '')
                     );
                     this.setState({ 'imageIds' : res, 'ready': true });
                 }

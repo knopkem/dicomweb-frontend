@@ -2,8 +2,8 @@ import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import SearchBar from 'material-ui-search-bar';
 import { useHistory } from "react-router-dom";
-import _ from 'lodash'
-
+import { Config } from '../config';
+import { __get } from '../utils';
 
 export default function StudyTable() {
 
@@ -42,7 +42,7 @@ export default function StudyTable() {
     }, []);
 
     const find = (value, abortController) => {
-        const query = `http://localhost:5000/rs/studies?includefield=00081030%2C00080060%2C00080020&StudyDate=19520428-20201008&PatientName=${value}`;
+        const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies?includefield=00081030%2C00080060%2C00080020&StudyDate=19520428-20201008&PatientName=${value}`;
         const options = abortController ? { signal: abortController.signal } : {};
         fetch(query, options)
         .then(response => response.json())
@@ -50,13 +50,13 @@ export default function StudyTable() {
             const res = data.map( (row, index) => {
                 return {
                     id: index,
-                    patientName: _.get(row, "['00100010'].Value[0].Alphabetic", 'no name'),
-                    patientId: _.get(row, "['00100020'].Value[0]", 'no id'),
-                    accession: _.get(row, "['00080050'].Value[0]", ''),
-                    studyDate: _.get(row, "['00080020'].Value[0]", ''),
-                    modality: _.get(row, "['00080061'].Value[0]", ''),
-                    studyDescription: _.get(row, "['00081030'].Value[0]", ''),
-                    uid: _.get(row, "['0020000D'].Value[0]", ''),
+                    patientName: __get(row, "00100010.Value[0].Alphabetic", 'no name'),
+                    patientId: __get(row, "00100020.Value[0]", 'no id'),
+                    accession: __get(row, "00080050.Value[0]", ''),
+                    studyDate: __get(row, "00080020.Value[0]", ''),
+                    modality: __get(row, "00080061.Value[0]", ''),
+                    studyDescription: __get(row, "00081030.Value[0]", ''),
+                    uid: __get(row, "0020000D.Value[0]", ''),
                 }
             });
             setData(res);

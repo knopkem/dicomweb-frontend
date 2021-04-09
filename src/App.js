@@ -1,8 +1,8 @@
 import React, { Component, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Loading from './components/Loading';
-const StudyBrowser = lazy(() => import('./StudyBrowser'));
-const SeriesTable = lazy(() => import('./components/SeriesTable'));
+import Loading from './components/loading';
+const StudyBrowser = lazy(() => import('./studyBrowser'));
+const SeriesTable = lazy(() => import('./components/seriesTable'));
 
 class App extends Component {
   render() {
