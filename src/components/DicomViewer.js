@@ -39,7 +39,7 @@ class DicomViewer extends Component {
 
   find() {
     const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies/${this.props.studyUid}/series/${this.props.seriesUid}/instances`;
-    const imageQuery = `wadouri:${Config.hostname}:${Config.port}/${Config.wadouri}/?studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=`;
+    const imageQuery = `wadouri:${Config.hostname}:${Config.port}/${Config.wadouri}?studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=`;
     fetch(query)
       .then((response) => response.json())
       .then((data) => {

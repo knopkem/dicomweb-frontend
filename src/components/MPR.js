@@ -221,7 +221,7 @@ class MPR extends Component {
     const json = await response.json();
     json.forEach((item) => {
       const objectUid = item['00080018'].Value[0];
-      const imageId = `wadouri:${Config.hostname}:${Config.port}/${Config.wadouri}/?requestType=WADO&studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=${objectUid}&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1`;
+      const imageId = `wadouri:${Config.hostname}:${Config.port}/${Config.wadouri}?requestType=WADO&studyUID=${this.props.studyUid}&seriesUID=${this.props.seriesUid}&objectUID=${objectUid}&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1`;
       imageIds.push(imageId);
     });
 
