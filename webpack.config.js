@@ -65,7 +65,7 @@ module.exports = (env, argv) => {
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/index.html',
-      filename: './index.html'
+      // filename: './src/index.html'
     }),
     new webpack.ProvidePlugin({
         process: 'process/browser',
