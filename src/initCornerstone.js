@@ -38,7 +38,7 @@ var config = {
   startWebWorkersOnDemand: true,
   taskConfiguration: {
     decodeTask: {
-      loadCodecsOnStartup : false,
+      loadCodecsOnStartup: false,
       initializeCodecsOnStartup: false,
       usePDFJS: false,
       strict: false,

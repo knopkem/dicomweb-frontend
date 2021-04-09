@@ -1,5 +1,5 @@
 import React, { Component, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Loading from './components/loading';
 const StudyBrowser = lazy(() => import('./studyBrowser'));
 const SeriesTable = lazy(() => import('./components/seriesTable'));
@@ -7,15 +7,15 @@ const SeriesTable = lazy(() => import('./components/seriesTable'));
 class App extends Component {
   render() {
     return (
-        <Suspense fallback={<Loading/>}>
+      <Suspense fallback={<Loading />}>
         <Router>
-                <Switch>
-                    <Route exact path="/" component={StudyBrowser} />
-                    <Route path="/viewer/:uid" component={SeriesTable} />
-                </Switch>
+          <Switch>
+            <Route exact path="/" component={StudyBrowser} />
+            <Route path="/viewer/:uid" component={SeriesTable} />
+          </Switch>
         </Router>
-        </Suspense>
-    )
+      </Suspense>
+    );
   }
 }
-export default App
+export default App;
