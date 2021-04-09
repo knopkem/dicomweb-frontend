@@ -1,12 +1,12 @@
 import * as React from 'react';
-import SeriesItem from './SeriesItem'
-import DicomViewer from './DicomViewer'
-import MPR from './MPR'
+import SeriesItem from './seriesItem'
+import DicomViewer from './dicomViewer'
+import MPR from './mpr'
 import { Grid } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
-import _ from 'lodash'
 import '../initCornerstone';
 import { Config } from './config';
+import { __get } from './utils';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,8 +43,8 @@ export default function SeriesTable(props) {
                     const res = data.map( (row, index) => {
                         return {
                             id: index,
-                            seriesDescription: _.get(row, "['0008103E'].Value[0]", 'unnamed'),
-                            uid: _.get(row, "['0020000E'].Value[0]", ''),
+                            seriesDescription: __get(row, "0008103E.Value[0]", 'unnamed'),
+                            uid: __get(row, "0020000E.Value[0]", ''),
                         }
                     });
                     setData(res);

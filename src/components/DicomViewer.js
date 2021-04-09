@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CornerstoneViewport from 'react-cornerstone-viewport';
 import { Config } from './config';
-import _ from 'lodash'
+import { __get } from './utils';
 
 class DicomViewer extends Component {
   state = {
@@ -45,7 +45,7 @@ class DicomViewer extends Component {
         .then(data => {
                 if(data) {
                     const res = data.map( (row, index) =>
-                            imageQuery + _.get(row, "['00080018'].Value[0]", '')
+                            imageQuery + __get(row, "00080018.Value[0]", '')
                     );
                     this.setState({ 'imageIds' : res, 'ready': true });
                 }
