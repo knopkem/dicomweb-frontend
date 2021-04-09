@@ -2,8 +2,8 @@ import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import SearchBar from 'material-ui-search-bar';
 import { useHistory } from "react-router-dom";
-import { Config } from './config';
-import { __get } from './utils';
+import { Config } from '../config';
+import { __get } from '../utils';
 
 export default function StudyTable() {
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CornerstoneViewport from 'react-cornerstone-viewport';
-import { Config } from './config';
-import { __get } from './utils';
+import { Config } from '../config';
+import { __get } from '../utils';
 
 class DicomViewer extends Component {
   state = {

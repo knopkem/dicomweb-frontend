@@ -11,7 +11,7 @@ import vtkColorTransferFunction from 'vtk.js/Sources/Rendering/Core/ColorTransfe
 import vtkPiecewiseFunction from 'vtk.js/Sources/Common/DataModel/PiecewiseFunction';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import presets from '../presets.js';
-import { Config } from './config';
+import { Config } from '../config';
 
 window.cornerstoneTools = cornerstoneTools;
 
