@@ -35,7 +35,6 @@ export default function SeriesTable(props) {
   React.useEffect(() => {
 
     const find = (value) => {
-      console.log('running qido query');
       const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies/${value}/series`;
       fetch(query)
         .then((response) => response.json())

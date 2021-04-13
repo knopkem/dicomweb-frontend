@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 
+/*
 Sentry.init({
   dsn: "https://3aacab02c26a439b8d41a99cf62587f3@o570431.ingest.sentry.io/5717246",
   integrations: [new Integrations.BrowserTracing()],
@@ -14,6 +15,7 @@ Sentry.init({
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
 });
+*/
 
 ReactDOM.render(
   <React.Fragment>
