@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import '../initCornerstone';
 import { Config } from '../config';
 import { __get } from '../utils';
+import { inherit } from 'hammerjs';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,50 +18,67 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SeriesTable(props) {
   const classes = useStyles();
-  const [data, setData] = React.useState([]);
-  const [init, setInit] = React.useState(false);
-  const [series, setSeries] = React.useState('');
-  const [study, setStudy] = React.useState('');
-  const [ready, setReady] = React.useState(false);
-  const [mpr, setMpr] = React.useState(false);
+
+  const initialState = {
+    init: false,
+    loaded: false,
+    selectionMpr: false,
+    studyUid: props.match.params.uid,
+    seriesUid: '',
+    data: [],
+  };
+  const init = {
+    value: false,
+  };
+  const [localState, setLocalState] = React.useState(initialState);
 
   React.useEffect(() => {
-    if (!init) {
-      const studyUid = props.match.params.uid;
-      find(studyUid);
-      setStudy(studyUid);
-      setInit(true);
-    }
-  }, [init]);
 
-  const find = (value) => {
-    const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies/${value}/series`;
-    fetch(query)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data) {
-          const res = data.map((row, index) => {
-            return {
-              id: index,
-              seriesDescription: __get(row, '0008103E.Value[0]', 'unnamed'),
-              uid: __get(row, '0020000E.Value[0]', ''),
-            };
-          });
-          setData(res);
-        }
+    const find = (value) => {
+      console.log('running qido query');
+      const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies/${value}/series`;
+      fetch(query)
+        .then((response) => response.json())
+        .then((raw) => {
+          if (raw) {
+            const data = raw.map((row, index) => {
+              return {
+                id: index,
+                seriesDescription: __get(row, '0008103E.Value[0]', 'unnamed'),
+                uid: __get(row, '0020000E.Value[0]', ''),
+              };
+            });
+            setLocalState({
+              ...localState,
+              data,
+            });
+          }
+        });
+    };
+
+    if (!localState.init) {
+      setLocalState({
+        ...localState,
+        init: true,
       });
-  };
+      find(localState.studyUid);
+    }
+  }, []);
+
   const onSelectionChange = (e) => {
-    setSeries(e.uid);
-    setMpr(e.mpr);
-    setReady(!e.mpr);
+    setLocalState({
+      ...localState,
+      seriesUid: e.uid,
+      selectionMpr: e.mpr,
+      loaded: true,
+    });
   };
 
   return (
     <div>
       <div className={classes.root}>
         <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
-          {data.map((elem) => (
+          {localState.data.map((elem) => (
             <Grid item xs={2} key={elem.id}>
               <SeriesItem id={elem.id} description={elem.seriesDescription} uid={elem.uid} onClick={onSelectionChange}></SeriesItem>
             </Grid>
@@ -68,8 +86,12 @@ export default function SeriesTable(props) {
         </Grid>
       </div>
       <div style={{ flex: 1 }}>
-        {ready ? <DicomViewer seriesUid={series} studyUid={study} /> : <div></div>}
-        {mpr ? <MPR seriesUid={series} studyUid={study} /> : <div></div>}
+        {localState.loaded &&
+          (localState.selectionMpr ? (
+            <MPR studyUid={localState.studyUid} seriesUid={localState.seriesUid} />
+          ) : (
+            <DicomViewer studyUid={localState.studyUid} seriesUid={localState.seriesUid} />
+          ))}
       </div>
     </div>
   );
