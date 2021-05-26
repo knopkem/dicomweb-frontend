@@ -9,5 +9,5 @@ This is work in progress
 
 # Usage
 
-* update src/config.js to point to your dicomweb server
+* update src/config.js to point to your dicomweb server [defaults should run with dicomweb-proxy or dicomweb-pacs out-of-the-box]
 * npm start
