@@ -34,7 +34,7 @@
     "@material-ui/icons": "^4.11.2",
     "@sentry/react": "^6.3.0",
     "@sentry/tracing": "^6.3.3",
-    "autoprefixer": "^10.2.5",
+    "autoprefixer": "^10.2.6",
     "cornerstone-core": "^2.3.0",
     "cornerstone-math": "^0.1.9",
     "cornerstone-tools": "^5.1.4",
