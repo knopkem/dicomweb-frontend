@@ -33,7 +33,7 @@
     "@material-ui/data-grid": "4.0.0-alpha.18",
     "@material-ui/icons": "^4.11.2",
     "@sentry/react": "^6.5.1",
-    "@sentry/tracing": "^6.3.3",
+    "@sentry/tracing": "^6.5.0",
     "autoprefixer": "^10.2.6",
     "cornerstone-core": "^2.3.0",
     "cornerstone-math": "^0.1.9",
