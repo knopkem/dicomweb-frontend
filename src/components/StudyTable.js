@@ -1,26 +1,25 @@
 import React from 'react';
-import { DataGrid } from '@material-ui/data-grid';
-import SearchBar from 'material-ui-search-bar';
-import { useHistory } from 'react-router-dom';
+import { DataGrid } from '@mui/x-data-grid';
+// import SearchBar from 'material-ui-search-bar';
 import { Config } from '../config';
 import { __get } from '../utils';
 
-export default function StudyTable() {
+export default function StudyTable(props) {
+
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'patientName', headerName: 'Patient name', width: 130 },
+    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'patientName', headerName: 'Patient name', width: 200 },
     { field: 'patientId', headerName: 'MRN', width: 130 },
-    { field: 'accession', headerName: 'Accession', width: 90 },
-    { field: 'studyDate', headerName: 'Study date', width: 130 },
-    { field: 'modality', headerName: 'Modality', width: 70 },
-    { field: 'studyDescription', headerName: 'Study description', width: 130 },
-    { field: 'uid', headerName: 'Study UID', width: 280 },
+    { field: 'accession', headerName: 'Accession', width: 200 },
+    { field: 'studyDate', headerName: 'Study date', width: 200 },
+    { field: 'modality', headerName: 'Mx', width: 100 },
+    { field: 'studyDescription', headerName: 'Study description', width: 250 },
   ];
 
-  const history = useHistory();
+  const {onStudySelected} = props;
 
-  const [data, setData] = React.useState([]);
-  const [, setSelection] = React.useState([]);
+  const [rows, setRows] = React.useState([]);
+  const [uids, setUids] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
 
   React.useEffect(() => {
@@ -45,7 +44,7 @@ export default function StudyTable() {
     fetch(query, options)
       .then((response) => response.json())
       .then((data) => {
-        const res = data.map((row, index) => {
+        const rows = data.map((row, index) => {
           return {
             id: index,
             patientName: __get(row, '00100010.Value[0].Alphabetic', 'no name'),
@@ -54,28 +53,26 @@ export default function StudyTable() {
             studyDate: __get(row, '00080020.Value[0]', ''),
             modality: __get(row, '00080061.Value[0]', ''),
             studyDescription: __get(row, '00081030.Value[0]', ''),
-            uid: __get(row, '0020000D.Value[0]', ''),
           };
         });
-        setData(res);
+        setRows(rows);
+
+        const uids = data.map((row) => __get(row, '0020000D.Value[0]', ''));
+        setUids(uids);
       });
   };
 
-  const onSelectionChange = (e) => {
-    console.log(data[e.rowIds['0']].uid);
-    setSelection(e.rowIds);
-
-    setTimeout(() => {
-      const uid = data[e.rowIds['0']].uid;
-      const path = `/viewer/${uid}`;
-      history.push(path);
-    }, 0);
+  const onRowSelected = (e) => {
+    const uid = uids[e.id];
+    onStudySelected(uid);
   };
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-      <SearchBar value={searchValue} onChange={(newValue) => setSearchValue(newValue)} onRequestSearch={() => find(searchValue)} />
-      <DataGrid rows={data} columns={columns} pageSize={15} checkboxSelection={false} onSelectionChange={onSelectionChange} />
+      <DataGrid rows={rows} columns={columns}  checkboxSelection={false} onRowClick={onRowSelected} />
     </div>
   );
 }
+
+// <SearchBar value={searchValue} onChange={(newValue) => setSearchValue(newValue)} onRequestSearch={() => find(searchValue)} />
+      

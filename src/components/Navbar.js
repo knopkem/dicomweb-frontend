@@ -6,8 +6,8 @@ const NavBar = () => {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h5" color="inherit">
+        <Toolbar variant="dense">
+          <Typography variant="h6" color="inherit">
             Study Browser
           </Typography>
         </Toolbar>

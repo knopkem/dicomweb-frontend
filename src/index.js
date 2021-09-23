@@ -4,9 +4,7 @@ import ReactApp from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.Fragment>
-    <ReactApp />
-  </React.Fragment>,
+  <ReactApp />,
   document.getElementById('root')
 );
 
