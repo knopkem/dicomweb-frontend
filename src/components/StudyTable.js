@@ -30,7 +30,7 @@ export default function StudyTable(props) {
     } catch (e) {
       // only call dispatch when we know the fetch was not aborted
       if (!abortController.signal.aborted) {
-        console.log(e.message);
+        console.error(e.message);
       }
     }
     return () => {

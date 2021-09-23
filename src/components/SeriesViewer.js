@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import SeriesItem from './seriesItem';
 import DicomViewer from './dicomViewer';
-import MPR from './mpr';
-import { Grid } from '@material-ui/core/';
+import { Grid, Button } from '@material-ui/core/';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import '../initCornerstone';
 import { Config } from '../config';
@@ -17,80 +17,63 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SeriesViewer(props) {
   const classes = useStyles();
+  const history = useHistory();
 
-  const initialState = {
-    init: false,
-    loaded: false,
-    selectionMpr: false,
-    studyUid: props.match.params.uid,
-    seriesUid: '',
-    data: [],
-  };
-  const init = {
-    value: false,
-  };
-  const [localState, setLocalState] = React.useState(initialState);
+  const [data, setData] = useState([]);
+  const { studyUid } = props.match.params;
+  const [seriesUid, setSeriesUid] = useState(props.match.params.seriesUid);
 
   React.useEffect(() => {
+    const find = (studyUid) => {
+      const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies/${studyUid}/series`;
 
-    const find = (value) => {
-      console.log('running qido query');
-      const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies/${value}/series`;
       fetch(query)
         .then((response) => response.json())
         .then((raw) => {
           if (raw) {
-            const data = raw.map((row, index) => {
+            const responseData = raw.map((row, index) => {
               return {
                 id: index,
+                modality: __get(row, '00080060.Value[0]', '?'),
                 seriesDescription: __get(row, '0008103E.Value[0]', 'unnamed'),
-                uid: __get(row, '0020000E.Value[0]', ''),
+                seriesUid: __get(row, '0020000E.Value[0]', ''),
               };
             });
-            setLocalState({
-              ...localState,
-              data,
-            });
+            setData(responseData);
           }
         });
     };
-
-    if (!localState.init) {
-      setLocalState({
-        ...localState,
-        init: true,
-      });
-      find(localState.studyUid);
-    }
+    find(studyUid);
   }, []);
 
   const onSelectionChange = (e) => {
-    setLocalState({
-      ...localState,
-      seriesUid: e.uid,
-      selectionMpr: e.mpr,
-      loaded: true,
-    });
+    if (e.seriesUid) {
+      setSeriesUid(e.seriesUid);
+    }
   };
 
   return (
     <div>
+      <Button onClick={() => {history.goBack();} } >Back to StudyBrowser</Button>
       <div className={classes.root}>
-        <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
-          {localState.data.map((elem) => (
+        <Grid container spacing={2} direction="row" justifyContent="flex-start" alignItems="flex-start">
+          {data.map((elem) => (
             <Grid item xs={2} key={elem.id}>
-              <SeriesItem id={elem.id} description={elem.seriesDescription} uid={elem.uid} onClick={onSelectionChange}></SeriesItem>
+              <SeriesItem
+                id={elem.id}
+                description={elem.seriesDescription}
+                modality={elem.modality}
+                studyUid={studyUid}
+                seriesUid={elem.seriesUid}
+                selected={seriesUid == elem.seriesUid}
+                onClick={onSelectionChange}
+              ></SeriesItem>
             </Grid>
           ))}
         </Grid>
       </div>
       <div style={{ flex: 1 }}>
-        {localState.loaded &&
-          (localState.selectionMpr ? (
-            <MPR studyUid={localState.studyUid} seriesUid={localState.seriesUid} />
-          ) : (
-            <DicomViewer studyUid={localState.studyUid} seriesUid={localState.seriesUid} />
-          ))}
+        <DicomViewer studyUid={studyUid} seriesUid={seriesUid} />
       </div>
     </div>
   );

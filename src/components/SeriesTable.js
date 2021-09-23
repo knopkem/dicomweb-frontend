@@ -19,7 +19,7 @@ export default function SeriesTable(props) {
   const history = useHistory();
 
   const { studyUID } = props;
-  const [ rows, setRows ] = React.useState([]);
+  const [rows, setRows] = React.useState([]);
 
   React.useEffect(() => {
     if (!studyUID) return;
@@ -48,20 +48,27 @@ export default function SeriesTable(props) {
   }, [studyUID, setRows]);
 
   const onSelectionChange = (e) => {
-    console.log(e);
-    const path = `/viewer/${e.uid}`;
+    const path = `/viewer/${e.studyUid}/${e.seriesUid}`;
     history.push(path);
   };
 
   return (
     <div className={classes.root}>
-        <Grid container spacing={2} direction="row" justifyContent="flex-start" alignItems="flex-start">
-          {rows.map((elem) => (
-            <Grid item xs={2} key={elem.id}>
-              <SeriesItem id={elem.id} description={elem.seriesDescription} modality={elem.modality} uid={elem.studyUid} onClick={onSelectionChange}></SeriesItem>
-            </Grid>
-          ))}
-        </Grid>
+      <Grid container spacing={2} direction="row" justifyContent="flex-start" alignItems="flex-start">
+        {rows.map((elem) => (
+          <Grid item xs={2} key={elem.id}>
+            <SeriesItem
+              id={elem.id}
+              description={elem.seriesDescription}
+              modality={elem.modality}
+              studyUid={elem.studyUid}
+              seriesUid={elem.seriesUid}
+              selected={false}
+              onClick={onSelectionChange}
+            ></SeriesItem>
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 }
