@@ -1,6 +1,6 @@
 import * as React from 'react';
 import SeriesItem from './seriesItem';
-import { Grid } from '@material-ui/core/';
+import { Grid, Box } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import '../initCornerstone';
@@ -10,7 +10,6 @@ import { __get } from '../utils';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: theme.spacing(2),
   },
 }));
 
@@ -54,7 +53,8 @@ export default function SeriesTable(props) {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={2} direction="row" justifyContent="flex-start" alignItems="flex-start">
+      <Box border={0}>
+      <Grid container spacing={0} direction="row" justifyContent="flex-start" alignItems="flex-start">
         {rows.map((elem) => (
           <Grid item xs={2} key={elem.id}>
             <SeriesItem
@@ -69,6 +69,7 @@ export default function SeriesTable(props) {
           </Grid>
         ))}
       </Grid>
+      </Box>
     </div>
   );
 }

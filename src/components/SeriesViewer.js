@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SeriesItem from './seriesItem';
 import DicomViewer from './dicomViewer';
-import { Grid, Button } from '@material-ui/core/';
+import { Grid, Button, Box } from '@material-ui/core/';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import '../initCornerstone';
@@ -11,7 +11,6 @@ import { __get } from '../utils';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: theme.spacing(2),
   },
 }));
 
@@ -53,10 +52,16 @@ export default function SeriesViewer(props) {
   };
 
   return (
-    <div>
-      <Button onClick={() => {history.goBack();} } >Back to StudyBrowser</Button>
-      <div className={classes.root}>
-        <Grid container spacing={2} direction="row" justifyContent="flex-start" alignItems="flex-start">
+    <>
+      <Button
+        onClick={() => {
+          history.goBack();
+        }}
+      >
+        Back to StudyBrowser
+      </Button>
+      <Box border={1} className={classes.root}>
+        <Grid container spacing={0} direction="row" justifyContent="flex-start" alignItems="flex-start">
           {data.map((elem) => (
             <Grid item xs={2} key={elem.id}>
               <SeriesItem
@@ -71,10 +76,10 @@ export default function SeriesViewer(props) {
             </Grid>
           ))}
         </Grid>
-      </div>
-      <div style={{ flex: 1 }}>
+      </Box>
+      <Box>
         <DicomViewer studyUid={studyUid} seriesUid={seriesUid} />
-      </div>
-    </div>
+      </Box>
+    </>
   );
 }

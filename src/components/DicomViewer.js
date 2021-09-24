@@ -62,11 +62,13 @@ class DicomViewer extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div>
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <CornerstoneViewport tools={this.state.tools} imageIds={this.state.imageIds} style={{ minWidth: '100%', height: '512px', flex: '1' }} />
-          </div>
-        </div>
+        <>
+            <CornerstoneViewport
+              tools={this.state.tools}
+              imageIds={this.state.imageIds}
+              style={{ minWidth: '100%', height: '512px', flex: '1' }}
+            />
+        </>
       );
     } else {
       return null;

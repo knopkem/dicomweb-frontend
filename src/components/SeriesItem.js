@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => {
   return ({
   root: {
     minWidth: 50,
+    margin: 4,
   },
   selected: {
     backgroundColor: theme.palette.primary.light,
