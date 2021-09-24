@@ -10,7 +10,9 @@ import { __get } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    display: "flex",
+    flexFlow: "column",
+    height: "100vh",
   },
 }));
 
@@ -52,7 +54,7 @@ export default function SeriesViewer(props) {
   };
 
   return (
-    <>
+    <div className={classes.root}>
       <Button
         onClick={() => {
           history.goBack();
@@ -60,7 +62,7 @@ export default function SeriesViewer(props) {
       >
         Back to StudyBrowser
       </Button>
-      <Box border={1} className={classes.root}>
+      <Box border={1}>
         <Grid container spacing={0} direction="row" justifyContent="flex-start" alignItems="flex-start">
           {data.map((elem) => (
             <Grid item xs={2} key={elem.id}>
@@ -77,9 +79,7 @@ export default function SeriesViewer(props) {
           ))}
         </Grid>
       </Box>
-      <Box>
-        <DicomViewer studyUid={studyUid} seriesUid={seriesUid} />
-      </Box>
-    </>
+    <DicomViewer studyUid={studyUid} seriesUid={seriesUid} />
+    </div>
   );
 }
