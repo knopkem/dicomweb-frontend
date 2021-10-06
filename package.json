@@ -39,7 +39,7 @@
     "autoprefixer": "^10.2.6",
     "cornerstone-core": "^2.3.0",
     "cornerstone-math": "^0.1.9",
-    "cornerstone-tools": "^5.1.4",
+    "cornerstone-tools": "^5.1.6",
     "cornerstone-wado-image-loader": "^3.3.1",
     "dicom-parser": "^1.8.7",
     "dicomweb-client": "^0.8.2",
