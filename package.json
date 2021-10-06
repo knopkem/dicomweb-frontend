@@ -52,7 +52,7 @@
     "react-router-dom": "^5.2.0",
     "react-vtkjs-viewport": "git+https://github.com/knopkem/react-vtkjs-viewport.git",
     "shader-loader": "^1.3.1",
-    "vtk.js": "^17.9.0",
+    "vtk.js": "^19.3.0",
     "worker-loader": "^3.0.8",
     "wslink": "^0.1.15"
   }
