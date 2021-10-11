@@ -4,8 +4,7 @@ This is work in progress
 
 # Install
 
-* npm6: ```npm install```
-* npm7: ```npm install --legacy-peer-deps```
+* ```npm install```
 
 # Usage
 

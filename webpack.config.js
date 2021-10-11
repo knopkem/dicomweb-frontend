@@ -1,11 +1,9 @@
 const path = require('path')
 
 // https://kitware.github.io/vtk-js/docs/intro_vtk_as_es6_dependency.html#Webpack-config
-const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core
-  .rules
+const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core.rules
 // Optional if you want to load *.css and *.module.css files
-const cssRules = require('vtk.js/Utilities/config/dependency.js').webpack.css
-  .rules
+const cssRules = require('vtk.js/Utilities/config/dependency.js').webpack.css.rules
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const webpack = require('webpack');
@@ -73,7 +71,6 @@ module.exports = (env, argv) => {
   optimization: {    
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
     compress: false,
     historyApiFallback: {
         disableDotRule: true
