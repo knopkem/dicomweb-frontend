@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import SeriesItem from './seriesItem';
 import DicomViewer from './dicomViewer';
-import { Grid, Button, Box } from '@material-ui/core/';
+import { Grid, Button, Box } from '@mui/material/';
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import '../initCornerstone';
 import { Config } from '../config';
 import { __get } from '../utils';

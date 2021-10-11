@@ -1,13 +1,12 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-// import SearchBar from 'material-ui-search-bar';
 import { Config } from '../config';
 import { __get } from '../utils';
 
 export default function StudyTable(props) {
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'id', headerName: 'ID', width: 70 },
     { field: 'patientName', headerName: 'Patient name', width: 200 },
     { field: 'patientId', headerName: 'MRN', width: 130 },
     { field: 'accession', headerName: 'Accession', width: 200 },
