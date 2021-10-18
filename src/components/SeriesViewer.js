@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import SeriesItem from './seriesItem';
-import DicomViewer from './dicomViewer';
+import SeriesItem from './SeriesItem';
+import DicomViewer from './DicomViewer';
 import { Grid, Button, Box } from '@mui/material/';
 import { useHistory } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';

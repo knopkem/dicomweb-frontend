@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import StudyTable from './components/studyTable';
-import NavBar from './components/navbar';
+import StudyTable from './components/StudyTable';
+import NavBar from './components/Navbar';
 import SeriesTable from './components/SeriesTable';
 import { Container } from '@mui/material/';
 

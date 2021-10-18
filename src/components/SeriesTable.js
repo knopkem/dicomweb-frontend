@@ -1,5 +1,5 @@
 import * as React from 'react';
-import SeriesItem from './seriesItem';
+import SeriesItem from './SeriesItem';
 import { Grid, Box } from '@mui/material/';
 import makeStyles from '@mui/styles/makeStyles';
 import { useHistory } from 'react-router-dom';
