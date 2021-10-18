@@ -1,7 +1,11 @@
 import dicomParser from 'dicom-parser';
+// @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'corn... Remove this comment to see the full error message
 import cornerstone from 'cornerstone-core';
+// @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'corn... Remove this comment to see the full error message
 import cornerstoneMath from 'cornerstone-math';
+// @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'corn... Remove this comment to see the full error message
 import cornerstoneWADOImageLoader from 'cornerstone-wado-image-loader';
+// @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'corn... Remove this comment to see the full error message
 import cornerstoneTools from 'cornerstone-tools';
 import Hammer from 'hammerjs';
 
@@ -28,6 +32,7 @@ cornerstoneTools.toolColors.setActiveColor('rgb(0, 255, 0)');
 
 cornerstoneTools.store.state.touchProximity = 40;
 
+// @ts-expect-error ts-migrate(2339) FIXME: Property 'cornerstone' does not exist on type 'Win... Remove this comment to see the full error message
 window.cornerstone = cornerstone;
 
 cornerstoneWADOImageLoader.external.cornerstone = cornerstone;

@@ -8,10 +8,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-ReactDOM.render(
-  <ReactApp />,
-  document.getElementById('root')
-);
+ReactDOM.render(<ReactApp />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

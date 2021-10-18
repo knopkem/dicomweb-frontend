@@ -1,5 +1,5 @@
 import * as React from 'react';
-import SeriesItem from './seriesItem';
+import SeriesItem from './SeriesItem';
 import { Grid, Box } from '@mui/material/';
 import makeStyles from '@mui/styles/makeStyles';
 import { useHistory } from 'react-router-dom';
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SeriesTable(props) {
+export default function SeriesTable(props: any) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -23,13 +23,13 @@ export default function SeriesTable(props) {
   React.useEffect(() => {
     if (!studyUID) return;
 
-    const find = (studyUid) => {
+    const find = (studyUid: any) => {
       const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies/${studyUid}/series`;
       fetch(query)
         .then((response) => response.json())
         .then((raw) => {
           if (raw) {
-            const data = raw.map((row, index) => {
+            const data = raw.map((row: any, index: any) => {
               return {
                 id: index,
                 modality: __get(row, '00080060.Value[0]', '?'),
@@ -46,7 +46,7 @@ export default function SeriesTable(props) {
     find(studyUID);
   }, [studyUID, setRows]);
 
-  const onSelectionChange = (e) => {
+  const onSelectionChange = (e: any) => {
     const path = `/viewer/${e.studyUid}/${e.seriesUid}`;
     history.push(path);
   };
@@ -54,21 +54,21 @@ export default function SeriesTable(props) {
   return (
     <div className={classes.root}>
       <Box border={0}>
-      <Grid container spacing={0} direction="row" justifyContent="flex-start" alignItems="flex-start">
-        {rows.map((elem) => (
-          <Grid item xs={2} key={elem.id}>
-            <SeriesItem
-              id={elem.id}
-              description={elem.seriesDescription}
-              modality={elem.modality}
-              studyUid={elem.studyUid}
-              seriesUid={elem.seriesUid}
-              selected={false}
-              onClick={onSelectionChange}
-            ></SeriesItem>
-          </Grid>
-        ))}
-      </Grid>
+        <Grid container spacing={0} direction="row" justifyContent="flex-start" alignItems="flex-start">
+          {rows.map((elem: any) => (
+            <Grid item xs={2} key={elem.id}>
+              <SeriesItem
+                id={elem.id}
+                description={elem.seriesDescription}
+                modality={elem.modality}
+                studyUid={elem.studyUid}
+                seriesUid={elem.seriesUid}
+                selected={false}
+                onClick={onSelectionChange}
+              ></SeriesItem>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     </div>
   );
