@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CornerstoneViewport from 'react-cornerstone-viewport';
 import { Config } from '../config';
-import { __get } from '../utils';
+import get from 'lodash.get';
 
 type MyProps = {
   studyUid: string;
@@ -49,7 +49,7 @@ class DicomViewer extends Component<MyProps> {
       .then((response) => response.json())
       .then((data) => {
         if (data) {
-          const res = data.map((row: any, index: any) => imageQuery + __get(row, '00080018.Value[0]', ''));
+          const res = data.map((row: any, index: any) => imageQuery + get(row, '00080018.Value[0]', ''));
           this.setState({ imageIds: res, ready: true });
         }
       });

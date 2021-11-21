@@ -1,7 +1,7 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Config } from '../config';
-import { __get } from '../utils';
+import get from 'lodash.get';
 
 export default function StudyTable(props: any) {
   const columns = [
@@ -45,17 +45,17 @@ export default function StudyTable(props: any) {
         const rows = data.map((row: any, index: any) => {
           return {
             id: index,
-            patientName: __get(row, '00100010.Value[0].Alphabetic', 'no name'),
-            patientId: __get(row, '00100020.Value[0]', 'no id'),
-            accession: __get(row, '00080050.Value[0]', ''),
-            studyDate: __get(row, '00080020.Value[0]', ''),
-            modality: __get(row, '00080061.Value[0]', ''),
-            studyDescription: __get(row, '00081030.Value[0]', ''),
+            patientName: get(row, '00100010.Value[0].Alphabetic', 'no name'),
+            patientId: get(row, '00100020.Value[0]', 'no id'),
+            accession: get(row, '00080050.Value[0]', ''),
+            studyDate: get(row, '00080020.Value[0]', ''),
+            modality: get(row, '00080061.Value[0]', ''),
+            studyDescription: get(row, '00081030.Value[0]', ''),
           };
         });
         setRows(rows);
 
-        const uids = data.map((row: any) => __get(row, '0020000D.Value[0]', ''));
+        const uids = data.map((row: any) => get(row, '0020000D.Value[0]', ''));
         setUids(uids);
       });
   };

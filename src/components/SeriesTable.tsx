@@ -5,7 +5,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { useHistory } from 'react-router-dom';
 import '../initCornerstone';
 import { Config } from '../config';
-import { __get } from '../utils';
+import get from 'lodash.get';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,10 +32,10 @@ export default function SeriesTable(props: any) {
             const data = raw.map((row: any, index: any) => {
               return {
                 id: index,
-                modality: __get(row, '00080060.Value[0]', '?'),
-                seriesDescription: __get(row, '0008103E.Value[0]', '?'),
+                modality: get(row, '00080060.Value[0]', '?'),
+                seriesDescription: get(row, '0008103E.Value[0]', '?'),
                 studyUid,
-                seriesUid: __get(row, '0020000E.Value[0]', ''),
+                seriesUid: get(row, '0020000E.Value[0]', ''),
               };
             });
             setRows(data);
