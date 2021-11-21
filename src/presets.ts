@@ -3,8 +3,7 @@ const presets = [
     name: 'CT-AAA',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '10',
-    scalarOpacity:
-      '12 -3024 0 143.556 0 166.222 0.686275 214.389 0.696078 419.736 0.833333 3071 0.803922',
+    scalarOpacity: '12 -3024 0 143.556 0 166.222 0.686275 214.389 0.696078 419.736 0.833333 3071 0.803922',
     id: 'vtkMRMLVolumePropertyNode1',
     specular: '0.2',
     shade: '1',
@@ -20,8 +19,7 @@ const presets = [
     name: 'CT-AAA2',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '10',
-    scalarOpacity:
-      '16 -3024 0 129.542 0 145.244 0.166667 157.02 0.5 169.918 0.627451 395.575 0.8125 1578.73 0.8125 3071 0.8125',
+    scalarOpacity: '16 -3024 0 129.542 0 145.244 0.166667 157.02 0.5 169.918 0.627451 395.575 0.8125 1578.73 0.8125 3071 0.8125',
     id: 'vtkMRMLVolumePropertyNode2',
     specular: '0.2',
     shade: '1',
@@ -42,8 +40,7 @@ const presets = [
     specular: '0.2',
     shade: '1',
     ambient: '0.1',
-    colorTransfer:
-      '16 -3024 0 0 0 -16.4458 0.729412 0.254902 0.301961 641.385 0.905882 0.815686 0.552941 3071 1 1 1',
+    colorTransfer: '16 -3024 0 0 0 -16.4458 0.729412 0.254902 0.301961 641.385 0.905882 0.815686 0.552941 3071 1 1 1',
     selectable: 'true',
     diffuse: '0.9',
     interpolation: '1',
@@ -58,8 +55,7 @@ const presets = [
     specular: '0',
     shade: '1',
     ambient: '0.2',
-    colorTransfer:
-      '20 -1000 0.3 0.3 1 -488 0.3 1 0.3 463.28 1 0 0 659.15 1 0.912535 0.0374849 953 1 0.3 0.3',
+    colorTransfer: '20 -1000 0.3 0.3 1 -488 0.3 1 0.3 463.28 1 0 0 659.15 1 0.912535 0.0374849 953 1 0.3 0.3',
     selectable: 'true',
     diffuse: '1',
     interpolation: '1',
@@ -69,8 +65,7 @@ const presets = [
     name: 'CT-Cardiac',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '10',
-    scalarOpacity:
-      '12 -3024 0 -77.6875 0 94.9518 0.285714 179.052 0.553571 260.439 0.848214 3071 0.875',
+    scalarOpacity: '12 -3024 0 -77.6875 0 94.9518 0.285714 179.052 0.553571 260.439 0.848214 3071 0.875',
     id: 'vtkMRMLVolumePropertyNode5',
     specular: '0.2',
     shade: '1',
@@ -86,8 +81,7 @@ const presets = [
     name: 'CT-Cardiac2',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '10',
-    scalarOpacity:
-      '12 -3024 0 42.8964 0 163.488 0.428571 277.642 0.776786 1587 0.754902 3071 0.754902',
+    scalarOpacity: '12 -3024 0 42.8964 0 163.488 0.428571 277.642 0.776786 1587 0.754902 3071 0.754902',
     id: 'vtkMRMLVolumePropertyNode6',
     specular: '0.2',
     shade: '1',
@@ -103,8 +97,7 @@ const presets = [
     name: 'CT-Cardiac3',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '10',
-    scalarOpacity:
-      '14 -3024 0 -86.9767 0 45.3791 0.169643 139.919 0.589286 347.907 0.607143 1224.16 0.607143 3071 0.616071',
+    scalarOpacity: '14 -3024 0 -86.9767 0 45.3791 0.169643 139.919 0.589286 347.907 0.607143 1224.16 0.607143 3071 0.616071',
     id: 'vtkMRMLVolumePropertyNode7',
     specular: '0.2',
     shade: '1',
@@ -120,8 +113,7 @@ const presets = [
     name: 'CT-Chest-Contrast-Enhanced',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '10',
-    scalarOpacity:
-      '10 -3024 0 67.0106 0 251.105 0.446429 439.291 0.625 3071 0.616071',
+    scalarOpacity: '10 -3024 0 67.0106 0 251.105 0.446429 439.291 0.625 3071 0.616071',
     id: 'vtkMRMLVolumePropertyNode8',
     specular: '0.2',
     shade: '1',
@@ -137,8 +129,7 @@ const presets = [
     name: 'CT-Chest-Vessels',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '1',
-    scalarOpacity:
-      '10 -3024 0 -1278.35 0 22.8277 0.428571 439.291 0.625 3071 0.616071',
+    scalarOpacity: '10 -3024 0 -1278.35 0 22.8277 0.428571 439.291 0.625 3071 0.616071',
     id: 'vtkMRMLVolumePropertyNode9',
     specular: '0',
     shade: '1',
@@ -154,14 +145,12 @@ const presets = [
     name: 'CT-Coronary-Arteries',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '1',
-    scalarOpacity:
-      '12 -2048 0 136.47 0 159.215 0.258929 318.43 0.571429 478.693 0.776786 3661 1',
+    scalarOpacity: '12 -2048 0 136.47 0 159.215 0.258929 318.43 0.571429 478.693 0.776786 3661 1',
     id: 'vtkMRMLVolumePropertyNode10',
     specular: '0',
     shade: '0',
     ambient: '0.2',
-    colorTransfer:
-      '24 -2048 0 0 0 136.47 0 0 0 159.215 0.159804 0.159804 0.159804 318.43 0.764706 0.764706 0.764706 478.693 1 1 1 3661 1 1 1',
+    colorTransfer: '24 -2048 0 0 0 136.47 0 0 0 159.215 0.159804 0.159804 0.159804 318.43 0.764706 0.764706 0.764706 478.693 1 1 1 3661 1 1 1',
     selectable: 'true',
     diffuse: '1',
     interpolation: '1',
@@ -171,8 +160,7 @@ const presets = [
     name: 'CT-Coronary-Arteries-2',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '1',
-    scalarOpacity:
-      '14 -2048 0 142.677 0 145.016 0.116071 192.174 0.5625 217.24 0.776786 384.347 0.830357 3661 0.830357',
+    scalarOpacity: '14 -2048 0 142.677 0 145.016 0.116071 192.174 0.5625 217.24 0.776786 384.347 0.830357 3661 0.830357',
     id: 'vtkMRMLVolumePropertyNode11',
     specular: '0',
     shade: '1',
@@ -188,8 +176,7 @@ const presets = [
     name: 'CT-Coronary-Arteries-3',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '10',
-    scalarOpacity:
-      '14 -2048 0 128.643 0 129.982 0.0982143 173.636 0.669643 255.884 0.857143 584.878 0.866071 3661 1',
+    scalarOpacity: '14 -2048 0 128.643 0 129.982 0.0982143 173.636 0.669643 255.884 0.857143 584.878 0.866071 3661 1',
     id: 'vtkMRMLVolumePropertyNode12',
     specular: '0.2',
     shade: '1',
@@ -210,8 +197,7 @@ const presets = [
     specular: '0',
     shade: '0',
     ambient: '0.2',
-    colorTransfer:
-      '20 -2048 0 0 0 -451 0 0 0 -450 0.0556356 0.0556356 0.0556356 1050 1 1 1 3661 1 1 1',
+    colorTransfer: '20 -2048 0 0 0 -451 0 0 0 -450 0.0556356 0.0556356 0.0556356 1050 1 1 1 3661 1 1 1',
     selectable: 'true',
     diffuse: '1',
     interpolation: '1',
@@ -238,8 +224,7 @@ const presets = [
     name: 'CT-Liver-Vasculature',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '1',
-    scalarOpacity:
-      '14 -2048 0 149.113 0 157.884 0.482143 339.96 0.660714 388.526 0.830357 1197.95 0.839286 3661 0.848214',
+    scalarOpacity: '14 -2048 0 149.113 0 157.884 0.482143 339.96 0.660714 388.526 0.830357 1197.95 0.839286 3661 0.848214',
     id: 'vtkMRMLVolumePropertyNode15',
     specular: '0',
     shade: '0',
@@ -287,8 +272,7 @@ const presets = [
     name: 'CT-Muscle',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '10',
-    scalarOpacity:
-      '10 -3024 0 -155.407 0 217.641 0.676471 419.736 0.833333 3071 0.803922',
+    scalarOpacity: '10 -3024 0 -155.407 0 217.641 0.676471 419.736 0.833333 3071 0.803922',
     id: 'vtkMRMLVolumePropertyNode18',
     specular: '0.2',
     shade: '1',
@@ -304,8 +288,7 @@ const presets = [
     name: 'CT-Pulmonary-Arteries',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '1',
-    scalarOpacity:
-      '14 -2048 0 -568.625 0 -364.081 0.0714286 -244.813 0.401786 18.2775 0.607143 447.798 0.830357 3592.73 0.839286',
+    scalarOpacity: '14 -2048 0 -568.625 0 -364.081 0.0714286 -244.813 0.401786 18.2775 0.607143 447.798 0.830357 3592.73 0.839286',
     id: 'vtkMRMLVolumePropertyNode19',
     specular: '0',
     shade: '1',
@@ -326,8 +309,7 @@ const presets = [
     specular: '0',
     shade: '0',
     ambient: '0.2',
-    colorTransfer:
-      '20 -2048 0 0 0 -167.01 0 0 0 -160 0.0556356 0.0556356 0.0556356 240 1 1 1 3661 1 1 1',
+    colorTransfer: '20 -2048 0 0 0 -167.01 0 0 0 -160 0.0556356 0.0556356 0.0556356 240 1 1 1 3661 1 1 1',
     selectable: 'true',
     diffuse: '1',
     interpolation: '1',
@@ -342,8 +324,7 @@ const presets = [
     specular: '0.2',
     shade: '1',
     ambient: '0.1',
-    colorTransfer:
-      '16 -3024 1 1 1 -900.0 0.2 1.0 1.0 -500.0 0.3 0.3 1.0 3071 0 0 0 ',
+    colorTransfer: '16 -3024 1 1 1 -900.0 0.2 1.0 1.0 -500.0 0.3 0.3 1.0 3071 0 0 0 ',
     selectable: 'true',
     diffuse: '0.9',
     interpolation: '1',
@@ -353,8 +334,7 @@ const presets = [
     name: 'MR-Angio',
     gradientOpacity: '4 0 1 255 1',
     specularPower: '1',
-    scalarOpacity:
-      '12 -2048 0 151.354 0 158.279 0.4375 190.112 0.580357 200.873 0.732143 3661 0.741071',
+    scalarOpacity: '12 -2048 0 151.354 0 158.279 0.4375 190.112 0.580357 200.873 0.732143 3661 0.741071',
     id: 'vtkMRMLVolumePropertyNode22',
     specular: '0',
     shade: '1',
@@ -406,8 +386,7 @@ const presets = [
     specular: '0.5',
     shade: '1',
     ambient: '0.3',
-    colorTransfer:
-      '16 0 0 0 0 98.7223 0.956863 0.839216 0.192157 412.406 0 0.592157 0.807843 641 1 1 1',
+    colorTransfer: '16 0 0 0 0 98.7223 0.956863 0.839216 0.192157 412.406 0 0.592157 0.807843 641 1 1 1',
     selectable: 'true',
     diffuse: '0.6',
     interpolation: '1',
@@ -417,14 +396,12 @@ const presets = [
     name: 'DTI-FA-Brain',
     gradientOpacity: '4 0 1 0.9950 1',
     specularPower: '40',
-    scalarOpacity:
-      '16 0 0 0 0 0.3501 0.0158 0.49379 0.7619 0.6419 1 0.9920 1 0.9950 0 0.9950 0',
+    scalarOpacity: '16 0 0 0 0 0.3501 0.0158 0.49379 0.7619 0.6419 1 0.9920 1 0.9950 0 0.9950 0',
     id: 'vtkMRMLVolumePropertyNode26',
     specular: '0.5',
     shade: '1',
     ambient: '0.3',
-    colorTransfer:
-      '28 0 1 0 0 0 1 0 0 0.24974 0.4941 1 0 0.49949 0 0.9882 1 0.7492 0.51764 0 1 0.9950 1 0 0 0.9950 1 0 0',
+    colorTransfer: '28 0 1 0 0 0 1 0 0 0.24974 0.4941 1 0 0.49949 0 0.9882 1 0.7492 0.51764 0 1 0.9950 1 0 0 0.9950 1 0 0',
     selectable: 'true',
     diffuse: '0.9',
     interpolation: '1',

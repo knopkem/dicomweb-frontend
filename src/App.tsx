@@ -16,6 +16,7 @@ function App() {
           <Router>
             <Switch>
               <Route exact path="/" component={StudyBrowser} />
+
               <Route path="/viewer/:studyUid/:seriesUid" component={SeriesViewer} />
             </Switch>
           </Router>

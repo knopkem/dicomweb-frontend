@@ -3,8 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Config } from '../config';
 import { __get } from '../utils';
 
-export default function StudyTable(props) {
-
+export default function StudyTable(props: any) {
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'patientName', headerName: 'Patient name', width: 200 },
@@ -15,7 +14,7 @@ export default function StudyTable(props) {
     { field: 'studyDescription', headerName: 'Study description', width: 250 },
   ];
 
-  const {onStudySelected} = props;
+  const { onStudySelected } = props;
 
   const [rows, setRows] = React.useState([]);
   const [uids, setUids] = React.useState([]);
@@ -26,7 +25,7 @@ export default function StudyTable(props) {
 
     try {
       find('', abortController);
-    } catch (e) {
+    } catch (e: any) {
       // only call dispatch when we know the fetch was not aborted
       if (!abortController.signal.aborted) {
         console.error(e.message);
@@ -37,13 +36,13 @@ export default function StudyTable(props) {
     };
   }, []);
 
-  const find = (value, abortController) => {
+  const find = (value: any, abortController: any) => {
     const query = `${Config.hostname}:${Config.port}/${Config.qido}/studies?includefield=00081030%2C00080060%2C00080020&StudyDate=19520428-20201008&PatientName=${value}`;
     const options = abortController ? { signal: abortController.signal } : {};
     fetch(query, options)
       .then((response) => response.json())
       .then((data) => {
-        const rows = data.map((row, index) => {
+        const rows = data.map((row: any, index: any) => {
           return {
             id: index,
             patientName: __get(row, '00100010.Value[0].Alphabetic', 'no name'),
@@ -56,22 +55,21 @@ export default function StudyTable(props) {
         });
         setRows(rows);
 
-        const uids = data.map((row) => __get(row, '0020000D.Value[0]', ''));
+        const uids = data.map((row: any) => __get(row, '0020000D.Value[0]', ''));
         setUids(uids);
       });
   };
 
-  const onRowSelected = (e) => {
+  const onRowSelected = (e: any) => {
     const uid = uids[e.id];
     onStudySelected(uid);
   };
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns}  checkboxSelection={false} onRowClick={onRowSelected} />
+      <DataGrid rows={rows} columns={columns} checkboxSelection={false} onRowClick={onRowSelected} />
     </div>
   );
 }
 
 // <SearchBar value={searchValue} onChange={(newValue) => setSearchValue(newValue)} onRequestSearch={() => find(searchValue)} />
-      

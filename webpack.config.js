@@ -1,85 +1,58 @@
-const path = require('path')
-
-// https://kitware.github.io/vtk-js/docs/intro_vtk_as_es6_dependency.html#Webpack-config
-const vtkRules = require('vtk.js/Utilities/config/dependency.js').webpack.core.rules
-// Optional if you want to load *.css and *.module.css files
-const cssRules = require('vtk.js/Utilities/config/dependency.js').webpack.css.rules
+const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
-const webpack = require('webpack');
-
-const entry = path.join(__dirname, './src/index.js')
-
-module.exports = (env, argv) => {
-  
-  const config = {
-  entry,
+module.exports = {
+  entry: path.join(__dirname, './src/index.tsx'),
   devtool: false,
   cache: false,
   mode: 'development',
   module: {
-
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-        }
+        test: /\.ts(x)?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
       {
         test: /\.html$/,
         use: [
           {
-            loader: 'html-loader'
-          }
-        ]
+            loader: 'html-loader',
+          },
+        ],
       },
       {
         test: /\.css$/,
-        use: [
-          // Creates `style` nodes from JS strings
-          'style-loader',
-          // Translates CSS into CommonJS
-          'css-loader',
-        ],
-      }
-    ].concat(vtkRules),
-    
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
   },
   resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
     fallback: {
       fs: false,
       path: false,
-      node: false
-    }
+      node: false,
+    },
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash:8].js',
-    publicPath: '/'
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/index.html',
-      // filename: './src/index.html'
     }),
-    new webpack.ProvidePlugin({
-        process: 'process/browser',
-      }),
   ],
-  optimization: {    
-  },
+  optimization: {},
   devServer: {
     compress: false,
     historyApiFallback: {
-        disableDotRule: true
+      disableDotRule: true,
     },
     hot: false,
     open: true,
-    port: 8091
-    
-  }
-    }
-  return config
-}
+    port: 8091,
+  },
+};
