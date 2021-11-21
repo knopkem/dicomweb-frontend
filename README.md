@@ -1,6 +1,7 @@
 # DICOMWEB-FRONTEND
 
-This is work in progress
+Dicomweb compatible DICOM viewer similar to [OHIF](https://github.com/OHIF/Viewers) but a lot more basic. 
+This is work in progress!
 
 # Install
 
