@@ -10,9 +10,7 @@ export default function StudyBrowser() {
   return (
     <Container component="main">
       <NavBar />
-
       <StudyTable onStudySelected={setStudyUID} />
-
       <SeriesTable studyUID={studyUID} />
     </Container>
   );

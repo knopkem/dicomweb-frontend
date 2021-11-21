@@ -1,3 +1,4 @@
+// reimplement lodash __get
 export function __get(obj: any, path: any, def: any) {
   path = path.replace(/\[/g, '.').replace(/]/g, '').split('.');
 
