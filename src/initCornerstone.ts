@@ -28,7 +28,6 @@ cornerstoneTools.toolColors.setActiveColor('rgb(0, 255, 0)');
 
 cornerstoneTools.store.state.touchProximity = 40;
 
-// @ts-expect-error ts-migrate(2339) FIXME: Property 'cornerstone' does not exist on type 'Win... Remove this comment to see the full error message
 window.cornerstone = cornerstone;
 
 cornerstoneWADOImageLoader.external.cornerstone = cornerstone;

@@ -20,7 +20,6 @@
     "@mui/material": "^5.0.3",
     "@mui/styles": "^5.0.1",
     "@mui/x-data-grid": "^5.0.0-beta.3",
-    "@types/lodash.get": "^4.4.6",
     "cornerstone-core": "^2.6.0",
     "cornerstone-math": "^0.1.9",
     "cornerstone-tools": "^6.0.2",
@@ -34,8 +33,10 @@
     "react-router-dom": "^5.3.0"
   },
   "devDependencies": {
+    "@types/cornerstone-core": "^2.3.3",
     "@types/hammerjs": "^2.0.40",
     "@types/html-webpack-plugin": "^3.2.6",
+    "@types/lodash.get": "^4.4.9",
     "@types/prettier": "^2.4.2",
     "@types/react": "^17.0.30",
     "@types/react-dom": "^17.0.9",
