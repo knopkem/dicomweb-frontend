@@ -18,7 +18,7 @@
     "@emotion/styled": "^11.3.0",
     "@fontsource/roboto": "^4.5.1",
     "@mui/material": "^5.0.3",
-    "@mui/styles": "^5.0.1",
+    "@mui/styles": "^5.18.0",
     "@mui/x-data-grid": "^5.0.0-beta.3",
     "cornerstone-core": "^2.6.0",
     "cornerstone-math": "^0.1.9",
